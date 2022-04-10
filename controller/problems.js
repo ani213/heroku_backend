@@ -39,7 +39,6 @@ module.exports.getProblemById=async(req,res)=>{
   try {
     const {_id}=req.params;
     const problems = await util.model.Problems.findOne({_id});
-    console.log(problems);
     res.status(200).send(problems);
   } catch (err) {
     res.status(400).send({ message: err.message });
