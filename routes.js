@@ -17,6 +17,7 @@ module.exports=function(router,auth,validation){
   router.route('/problem').post(auth.authenticate,validation(problemValidation.AddProblemSchema),problemController.addProblem);
   router.route('/problem').put(auth.authenticate,validation(problemValidation.UpdateProblemSchema),problemController.updateProblem);
   router.route('/problem').get(auth.authenticate,problemController.getProblem);
+  router.route('/problem/:_id').get(auth.authenticate,problemController.getProblemById);
 
   
   router.route('/test').post(userController.test)

@@ -27,10 +27,22 @@ module.exports.getProblem = async (req, res) => {
   try {
     const { _id } = req.user;
     const problems = await util.model.Problems.find({
-      where: { user_id: _id },
-    });
+      where: { user_id: _id }
+    },{question:0,answer:0});
     res.status(200).send(problems);
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
 };
+
+module.exports.getProblemById=async(req,res)=>{
+  try {
+    const {_id}=req.params;
+    const problems = await util.model.Problems.findOne({_id});
+    console.log(problems);
+    res.status(200).send(problems);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+};
+  
