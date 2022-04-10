@@ -25,10 +25,10 @@ module.exports.checkPassword = (password, hashedPassword, salt) => {
 };
 
 module.exports.access_token_generator = (data) => {
-  return jwt.sign(data, process.env.TOKEN_KEY, {algorithm: 'HS256', expiresIn: 60*50 });
+  return jwt.sign(data, process.env.TOKEN_KEY, {algorithm: 'HS256', expiresIn: '7h' });
 };
 module.exports.refresh_token_generator=(data)=>{
-  return jwt.sign(data, process.env.TOKEN_KEY+"REFRESH", {algorithm: 'HS256', expiresIn: 60 * 30 });
+  return jwt.sign(data, process.env.TOKEN_KEY+"REFRESH", {algorithm: 'HS256', expiresIn: '7h' });
 }
 
 
