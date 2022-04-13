@@ -30,9 +30,8 @@ module.exports.updateProblem = async (req, res) => {
 module.exports.getProblem = async (req, res) => {
   try {
     const { _id } = req.user;
-    const problems = await util.model.Problems.find({
-      where: { user_id: _id }
-    },{question:0,answer:0});
+    console.log(req.user,_id);
+    const problems = await util.model.Problems.find( { user_id: _id },{question:0,answer:0,__v:0});
     res.status(200).send(problems);
   } catch (err) {
     res.status(400).send({ message: err.message });
