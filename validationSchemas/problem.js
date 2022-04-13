@@ -8,6 +8,7 @@ module.exports.AddProblemSchema=yup.object().shape({
 
   module.exports.UpdateProblemSchema=yup.object().shape({
       _id:yup.string().required("id required"),
+      user_id:yup.string().required("user_id required"),
       title:yup.string().required("Title required"),
       question:yup.string(),
       answer:yup.string(),

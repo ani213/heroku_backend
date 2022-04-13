@@ -182,7 +182,7 @@ module.exports.userContext=async (req,res)=>{
   try{
     const {_id}=req.user;
     let {username,firstName,lastName,email,dateOfBirth,role}=await util.model.Users.findOne({_id})
-    res.status(200).send({username,firstName,lastName,email,dateOfBirth,role})
+    res.status(200).send({username,firstName,lastName,email,dateOfBirth,role,_id})
   }catch(err){
     res.status(400).send({message:err.message})
   }

@@ -14,9 +14,13 @@ module.exports.addProblem = async (req, res) => {
 };
 module.exports.updateProblem = async (req, res) => {
     try{
-        const {_id}=req.body;
-        const {title}= await util.model.Problems.findByIdAndUpdate(_id,{...req.body},{new:true});
-        res.status(200).send({message:`${title} successfully updated`})
+        const {_id,user_id}=req.body;
+        if(user_id==req.user._id){
+          const {title}= await util.model.Problems.findByIdAndUpdate(_id,{...req.body},{new:true});
+          res.status(200).send({message:`${title} successfully updated`})
+        }else{
+        res.status(400).send({ message: "You are not authorize to modified this." });
+        }
     }catch(err){
         res.status(400).send({ message: err.message });
     }
@@ -44,4 +48,12 @@ module.exports.getProblemById=async(req,res)=>{
     res.status(400).send({ message: err.message });
   }
 };
+module.exports.getAllProblem=async (req,res)=>{
+  try {
+    const problems = await util.model.Problems.find({},{question:0,answer:0,__v:0});
+    res.status(200).send(problems);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+}
   
