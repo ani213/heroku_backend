@@ -38,12 +38,15 @@ module.exports=new mongoose.Schema({
         },
         dateOfBirth:{
             type:Date,
-            required:true,
+            // required:true,
             trim: true,
         },
         status:{
             type:String,
             enum:["Active","Inactive"],
             default:"Inactive"
+        },
+        picture:{
+            type:String,
         }
 },{ timestamps: true })

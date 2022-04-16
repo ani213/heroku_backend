@@ -5,6 +5,7 @@ const problemValidation=require("./validationSchemas/problem");
 
 
 module.exports=function(router,auth,validation){
+  router.route('/google/auth').post(validation(userValidation.UserLoginWithGoogleSchema),userController.loginWithGoogle)
   router.route('/login').post(validation(userValidation.UserLoginSchema),userController.login)
   router.route('/register').post(validation(userValidation.UserValidationSchema),userController.register)
   router.route('/refresh').get(auth.refresh,userController.refresh)

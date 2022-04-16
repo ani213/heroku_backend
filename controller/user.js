@@ -1,5 +1,9 @@
 const common = require("../common");
 const util = require("../util");
+const {OAuth2Client}=require("google-auth-library");
+const client=new OAuth2Client(process.env.CLIENT_ID);
+
+
 module.exports.login = async (req, res) => {
   try {
     const user = await util.model.Users.findOne({
@@ -16,7 +20,7 @@ module.exports.login = async (req, res) => {
         ) {
           res.status(200).send({
             expire_refresh: 1800,
-            expire_access: 240,
+            expire_access: 2400,
             access_token: common.access_token_generator({
               _id: user._id,
               username: user.username,
@@ -186,8 +190,74 @@ module.exports.userContext=async (req,res)=>{
   }catch(err){
     res.status(400).send({message:err.message})
   }
-
 }
+
+module.exports.loginWithGoogle=async (req,res)=>{
+    try{
+      const {idToken}=req.body;
+    const response=await  client.verifyIdToken({idToken,audience:process.env.CLIENT_ID})
+      const {email_verified,given_name,family_name,picture,email}=response.payload;
+      if(email_verified){
+        const user=await util.model.Users.findOne({email:email})
+         if(user){
+          if (user.status === "Active"){
+            res.status(200).send({
+              expire_refresh: 1800,
+              expire_access: 2400,
+              access_token: common.access_token_generator({
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                role:user.role
+              }),
+              refresh_token: common.refresh_token_generator({
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                role:user.role
+              }),
+            });
+          }
+         }else{
+           const crestedUser=await util.model.Users.create({
+             firstName:given_name,
+             lastName:family_name,
+             email:email,
+             username:email,
+             picture,
+             password:{
+               salt:"ani123",
+               hashedPassword:"12geh3637#hdt"
+             },
+             status:'Active'
+           })
+           res.status(200).send({
+            expire_refresh: 1800,
+            expire_access: 2400,
+            access_token: common.access_token_generator({
+              _id: crestedUser._id,
+              username: crestedUser.username,
+              email: crestedUser.email,
+              role:crestedUser.role
+            }),
+            refresh_token: common.refresh_token_generator({
+              _id: crestedUser._id,
+              username: crestedUser.username,
+              email: crestedUser.email,
+              role:crestedUser.role
+            }),
+          });
+         }
+      }else{
+      res.status(400).send({message:"This Email is not verified by google."})
+      }
+  }catch(err){
+    console.log(err);
+      res.status(400).send({message:err.message})
+    }
+}
+
+
 
 module.exports.test = (req, res) => {
    

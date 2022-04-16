@@ -20,7 +20,6 @@ routes(router,auth,validation);
 app.get("/",(req,res)=>{
     res.send({message:"App is working fine :-)"})
 })
-
 app.use('/app',router)
 const PORT=process.env.PORT||8080
 app.listen(PORT,console.log(`server start:#${PORT}`));

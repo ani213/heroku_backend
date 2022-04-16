@@ -29,6 +29,9 @@ module.exports.UserCangePasswordSchema=yup.object().shape({
   confirmPassword:yup.string().oneOf([yup.ref('password'),null],'password and confirmPassword must match.').required()
 })
 
+module.exports.UserLoginWithGoogleSchema=yup.object().shape({
+  idToken:yup.string().required("Token Id Required.")
+})
 
 
 
