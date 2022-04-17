@@ -185,8 +185,8 @@ module.exports.changePassword=async (req,res)=>{
 module.exports.userContext=async (req,res)=>{
   try{
     const {_id}=req.user;
-    let {username,firstName,lastName,email,dateOfBirth,role}=await util.model.Users.findOne({_id})
-    res.status(200).send({username,firstName,lastName,email,dateOfBirth,role,_id})
+    let {username,firstName,lastName,email,dateOfBirth,role,picture}=await util.model.Users.findOne({_id})
+    res.status(200).send({username,firstName,lastName,email,dateOfBirth,role,_id,picture})
   }catch(err){
     res.status(400).send({message:err.message})
   }
