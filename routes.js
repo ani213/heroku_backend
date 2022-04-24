@@ -22,6 +22,11 @@ module.exports=function(router,auth,validation){
   router.route('/problems/all').get(auth.authenticate,problemController.getAllProblem);
 
 
+  /***************** Problem Types **********************/ 
+  router.route('/problem-types').post(auth.authenticate,problemController.addProblemTypes);
+  router.route('/problem-types').get(auth.authenticate,problemController.getProblemTypes);
+
+
   
   router.route('/test').post(userController.test)
 }

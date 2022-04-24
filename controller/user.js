@@ -7,7 +7,7 @@ const client=new OAuth2Client(process.env.CLIENT_ID);
 module.exports.login = async (req, res) => {
   try {
     const user = await util.model.Users.findOne({
-      username: req.body.username,
+      $or:[{ username: req.body.username }, { email: req.body.username }]
     });
     if (user) {
       if (user.status === "Active") {

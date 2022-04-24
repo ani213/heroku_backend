@@ -55,3 +55,22 @@ module.exports.getAllProblem=async (req,res)=>{
   }
 }
 
+
+module.exports.addProblemTypes=async (req,res)=>{
+  try{
+    const problemTypes=await util.model.ProblemsTypes.create(req.body)
+    res.status(200).send(problemTypes);
+  }catch(err){
+    res.status(400).send({ message: err.message });
+  }
+}
+
+module.exports.getProblemTypes=async (req,res)=>{
+  try{
+    const problemTypes=await util.model.ProblemsTypes.find()
+    res.status(200).send(problemTypes);
+  }catch(err){
+    res.status(400).send({ message: err.message });
+  }
+}
+
