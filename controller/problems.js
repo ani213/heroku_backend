@@ -73,4 +73,13 @@ module.exports.getProblemTypes=async (req,res)=>{
     res.status(400).send({ message: err.message });
   }
 }
+module.exports.getProblemsByProblemType=async (req,res)=>{
+  try{
+    const {_id}=req.params;
+    const problemTypes=await util.model.Problems.find({type_id:_id})
+    res.status(200).send(problemTypes);
+  }catch(err){
+    res.status(400).send({ message: err.message });
+  }
+}
 
