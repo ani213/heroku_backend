@@ -1,6 +1,8 @@
 const common = require("../common");
 const util = require("../util");
 const {OAuth2Client}=require("google-auth-library");
+const res = require("express/lib/response");
+const { cloudeUpload } = require("../helper/uploadFile");
 const client=new OAuth2Client(process.env.CLIENT_ID);
 
 
@@ -259,8 +261,13 @@ module.exports.loginWithGoogle=async (req,res)=>{
 
 
 
-module.exports.test = (req, res) => {
-   
+module.exports.test =async (req, res) => {
+   try{
+    let result=await cloudeUpload(req)
+    res.send(result)
+   }catch(err){
+      res.send(err)
+   }
 };
 
 

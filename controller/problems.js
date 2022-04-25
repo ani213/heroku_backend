@@ -1,3 +1,4 @@
+const { cloudeUpload } = require("../helper/uploadFile");
 const util = require("../util");
 
 module.exports.addProblem = async (req, res) => {
@@ -82,4 +83,15 @@ module.exports.getProblemsByProblemType=async (req,res)=>{
     res.status(400).send({ message: err.message });
   }
 }
+module.exports.updateProblemTypes=async (req,res)=>{
+  try{
+    const {_id}=req.params;
+    const {secure_url}=await cloudeUpload(req)
+    const result=await util.model.ProblemsTypes.findByIdAndUpdate(_id,{picture:secure_url},{new:true});
+    res.status(200).send(result)
+  }catch(err){
+    res.status(400).send({ message: err.message });
+  }
+}
+
 

@@ -6,8 +6,12 @@ const modelInit=require("./models/init")()
 const routes=require('./routes');
 const cors = require('cors');
 const auth=require("./auth")();
-const validation=require("./middleware/validateMiddelware")
+const validation=require("./middleware/validateMiddelware");
+const fileUpload=require('express-fileupload');
 
+app.use(fileUpload({
+    useTempFiles:true
+}))
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

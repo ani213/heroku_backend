@@ -26,6 +26,7 @@ module.exports=function(router,auth,validation){
   /***************** Problem Types **********************/ 
   router.route('/problem-types').post(auth.authenticate,problemController.addProblemTypes);
   router.route('/problem-types').get(auth.authenticate,problemController.getProblemTypes);
+  router.route('/problem-types/:_id').put(auth.authenticate,problemController.updateProblemTypes);
 
 
   
