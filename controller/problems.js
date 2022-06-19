@@ -59,8 +59,15 @@ module.exports.getAllProblem=async (req,res)=>{
 
 module.exports.addProblemTypes=async (req,res)=>{
   try{
-    const problemTypes=await util.model.ProblemsTypes.create(req.body)
-    res.status(200).send(problemTypes);
+    const {title,value}=req.body;
+    if(req.files && req.files.file){
+      const {secure_url}=await cloudeUpload(req)
+      const problemTypes=await util.model.ProblemsTypes.create({title,value,picture:secure_url})
+      res.status(200).send(problemTypes);
+    }else{
+      const problemTypes=await util.model.ProblemsTypes.create(req.body);
+      res.status(200).send(problemTypes);
+    } 
   }catch(err){
     res.status(400).send({ message: err.message });
   }
