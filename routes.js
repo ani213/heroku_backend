@@ -2,7 +2,7 @@ const userController=require("./controller/user");
 const userValidation=require("./validationSchemas/user");
 const problemController=require("./controller/problems");
 const problemValidation=require("./validationSchemas/problem");
-
+const roleConfig=require('./config/Roles');
 
 module.exports=function(router,auth,validation){
   router.route('/google/auth').post(validation(userValidation.UserLoginWithGoogleSchema),userController.loginWithGoogle)
@@ -24,9 +24,9 @@ module.exports=function(router,auth,validation){
 
 
   /***************** Problem Types **********************/ 
-  router.route('/problem-types').post(auth.authenticate,problemController.addProblemTypes);
+  router.route('/problem-types').post(auth.authenticate,auth.hasRoles([roleConfig.ROLES.superAdmin]),problemController.addProblemTypes);
   router.route('/problem-types').get(auth.authenticate,problemController.getProblemTypes);
-  router.route('/problem-types/:_id').put(auth.authenticate,problemController.updateProblemTypes);
+  router.route('/problem-types/:_id').put(auth.authenticate,auth.hasRoles([roleConfig.ROLES.superAdmin]),problemController.updateProblemTypes);
 
 
   

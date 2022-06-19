@@ -35,6 +35,16 @@ module.exports= function () {
         }else{
             res.status(401).send({message:"Unauthorized access"})
         } 
+        },
+        hasRoles:(RoleIds)=>{
+            return (req,res,next)=>{
+              let user=req.user;
+              if(RoleIds.indexOf(user.role)!==-1){
+                 next();
+              }else{
+                res.status(401).send({message:"You can not access this feature"});
+              }
+            }
         }
   }     
 }

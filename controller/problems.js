@@ -86,9 +86,15 @@ module.exports.getProblemsByProblemType=async (req,res)=>{
 module.exports.updateProblemTypes=async (req,res)=>{
   try{
     const {_id}=req.params;
-    const {secure_url}=await cloudeUpload(req)
-    const result=await util.model.ProblemsTypes.findByIdAndUpdate(_id,{picture:secure_url},{new:true});
-    res.status(200).send(result)
+    if(req.files && req.files.file){
+      const {secure_url}=await cloudeUpload(req)
+      const result=await util.model.ProblemsTypes.findByIdAndUpdate(_id,{picture:secure_url},{new:true});
+      res.status(200).send(result)
+    }else{
+      const result=await util.model.ProblemsTypes.findByIdAndUpdate(_id,{...req.body},{new:true});
+      res.status(200).send(result)
+    }
+    
   }catch(err){
     res.status(400).send({ message: err.message });
   }
