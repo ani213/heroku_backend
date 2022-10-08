@@ -33,7 +33,7 @@ module.exports.getProblem = async (req, res) => {
     const { _id } = req.user;
     const problems = await util.model.Problems.find( { user_id: _id },{question:0,answer:0,__v:0})
     .populate({path:"user_id",select:"firstName lastName"})
-    .sort({createdAt:'desc',updatedAt:'desc'});
+    .sort({updatedAt:'desc'});
     res.status(200).send(problems);
   } catch (err) {
     res.status(400).send({ message: err.message });
@@ -53,7 +53,7 @@ module.exports.getAllProblem=async (req,res)=>{
   try {
     const problems = await util.model.Problems.find({}, { question: 0, answer: 0, __v: 0 })
     .populate({path:"user_id",select:"firstName lastName"})
-    .sort({ createdAt: 'desc', updatedAt: 'desc' });
+    .sort({updatedAt: 'desc' });
     res.status(200).send(problems);
   } catch (err) {
     res.status(400).send({ message: err.message });
