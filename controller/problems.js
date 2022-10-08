@@ -34,6 +34,7 @@ module.exports.getProblem = async (req, res) => {
     const { _id } = req.user;
     const problems = await util.model.Problems.find( { user_id: _id },{question:0,answer:0,__v:0})
     .populate({path:"user_id",select:"firstName lastName"})
+    .collation({locale: "en" })
     .sort({[sort]: [by] });
     res.status(200).send(problems);
   } catch (err) {
@@ -55,6 +56,7 @@ module.exports.getAllProblem=async (req,res)=>{
   try {
     const problems = await util.model.Problems.find({}, { question: 0, answer: 0, __v: 0 })
     .populate({path:"user_id",select:"firstName lastName"})
+    .collation({locale: "en" })
     .sort({[sort]: [by] });
     res.status(200).send(problems);
   } catch (err) {
@@ -133,6 +135,7 @@ module.exports.problemSearch=async (req,res)=>{
     }
     const result= await util.model.Problems.find(query)
     .populate({path:"user_id",select:"firstName lastName"})
+    .collation({locale: "en" })
     .sort({[sort]: [by] });
     res.status(200).send(result);
   }catch(err){
