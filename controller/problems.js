@@ -115,16 +115,21 @@ module.exports.updateProblemTypes=async (req,res)=>{
 
 module.exports.problemSearch=async (req,res)=>{
   try{
-    const{search,id,sort="updatedAt",by='desc'}=req.query;
+    const{search,id,sort="updatedAt",by='desc',type='all'}=req.query;
     let query={}
-    if(!!id){
-      query={"user_id":id,"$or":[{question:{$regex:search}},
-        {answer:{$regex:search}},
-        {title:{$regex:search}}]}
+    if(!!id&&type==='all'){
+      query={"user_id":id,"$or":[{question:{$regex:search,$options:"i"}},
+        {answer:{$regex:search,$options:"i"}},
+        {title:{$regex:search,$options:"i"}}]}
+    }else if(!!id){
+      query={"user_id":id,"$or":[{[type]:{$regex:search,$options:"i"}}]}
+    }
+    else if(type==='all'){
+      query={"$or":[{question:{$regex:search,$options:"i"}},
+        {answer:{$regex:search,$options:"i"}},
+        {title:{$regex:search,$options:"i"}}]}
     }else{
-      query={"$or":[{question:{$regex:search}},
-        {answer:{$regex:search}},
-        {title:{$regex:search}}]}
+      query={"$or":[{[type]:{$regex:search,$options:"i"}}]}
     }
     const result= await util.model.Problems.find(query)
     .populate({path:"user_id",select:"firstName lastName"})
