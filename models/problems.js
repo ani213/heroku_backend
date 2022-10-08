@@ -19,4 +19,4 @@ module.exports=new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId, ref:'ProblemTypes',
             required:true
         }
-},{ timestamps: true })
+},{ timestamps: true }).index({title:1,question:1,answer:1})

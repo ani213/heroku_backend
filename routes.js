@@ -21,6 +21,7 @@ module.exports=function(router,auth,validation){
   router.route('/problem/:_id').get(auth.authenticate,problemController.getProblemById);
   router.route('/problems/all').get(auth.authenticate,problemController.getAllProblem);
   router.route('/problem-types/:_id').get(auth.authenticate,problemController.getProblemsByProblemType);
+  router.route('/problems/search').get(auth.authenticate,problemController.problemSearch);
 
 
   /***************** Problem Types **********************/ 

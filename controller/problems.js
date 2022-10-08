@@ -113,4 +113,24 @@ module.exports.updateProblemTypes=async (req,res)=>{
   }
 }
 
-
+module.exports.problemSearch=async (req,res)=>{
+  try{
+    const{search,id,sort="updatedAt",by='desc'}=req.query;
+    let query={}
+    if(!!id){
+      query={"user_id":id,"$or":[{question:{$regex:search}},
+        {answer:{$regex:search}},
+        {title:{$regex:search}}]}
+    }else{
+      query={"$or":[{question:{$regex:search}},
+        {answer:{$regex:search}},
+        {title:{$regex:search}}]}
+    }
+    const result= await util.model.Problems.find(query)
+    .populate({path:"user_id",select:"firstName lastName"})
+    .sort({[sort]: [by] });
+    res.status(200).send(result);
+  }catch(err){
+    res.status(400).send({ message: err.message });
+  }
+}
