@@ -84,6 +84,8 @@ module.exports.addProblemTypes=async (req,res)=>{
 module.exports.getProblemTypes=async (req,res)=>{
   try{
     const problemTypes=await util.model.ProblemsTypes.find()
+    .collation({locale: "en" })
+    .sort({title: 1 });
     res.status(200).send(problemTypes);
   }catch(err){
     res.status(400).send({ message: err.message });
