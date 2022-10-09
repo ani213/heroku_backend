@@ -92,7 +92,19 @@ module.exports.getProblemTypes=async (req,res)=>{
 module.exports.getProblemsByProblemType=async (req,res)=>{
   try{
     const {_id}=req.params;
-    const problemTypes=await util.model.Problems.find({type_id:_id})
+    const {search="",sort="updatedAt",by='desc',type='all'}=req.query;
+    let query={};
+    if(type==='all'){
+      query={"$or":[{question:{$regex:search,$options:"i"}},
+        {answer:{$regex:search,$options:"i"}},
+        {title:{$regex:search,$options:"i"}}]}
+    }else{
+      query={"$or":[{[type]:{$regex:search,$options:"i"}}]}
+    }
+    const problemTypes=await util.model.Problems.find({type_id:_id,...query})
+    .populate({path:"user_id",select:"firstName lastName"})
+    .collation({locale: "en" })
+    .sort({[sort]: [by] });
     res.status(200).send(problemTypes);
   }catch(err){
     res.status(400).send({ message: err.message });
