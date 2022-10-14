@@ -49,4 +49,4 @@ module.exports=new mongoose.Schema({
         picture:{
             type:String,
         }
-},{ timestamps: true })
+},{ timestamps: true }).index({username:1,firstName:1,lastName:1,email:1})

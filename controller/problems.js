@@ -52,9 +52,13 @@ module.exports.getProblemById=async(req,res)=>{
   }
 };
 module.exports.getAllProblem=async (req,res)=>{
-  const {sort="updatedAt",by='desc'}=req.query;
+  const {sort="updatedAt",by='desc',_id}=req.query;
   try {
-    const problems = await util.model.Problems.find({}, { question: 0, answer: 0, __v: 0 })
+     let query={}
+     if(!!_id){
+      query.user_id=_id
+     }
+    const problems = await util.model.Problems.find(query, { question: 0, answer: 0, __v: 0 })
     .populate({path:"user_id",select:"firstName lastName"})
     .collation({locale: "en" })
     .sort({[sort]: [by] });

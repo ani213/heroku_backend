@@ -12,7 +12,9 @@ module.exports=function(router,auth,validation){
   router.route('/verifyemail').post(auth.authenticate,validation(userValidation.UserVarificationSchema),userController.verifyEmail)
   router.route('/forgetpassword').post(validation(userValidation.UserForgetPasswordSchema),userController.forgetPassword)
   router.route('/changepassword').post(auth.authenticate,validation(userValidation.UserCangePasswordSchema),userController.changePassword)
-  router.route('/usercontext').get(auth.authenticate,userController.userContext)
+  router.route('/usercontext').get(auth.authenticate,userController.userContext);
+  router.route('/user/search').get(auth.authenticate,userController.getUserList);
+
 
   /***************** Problems **********************/ 
   router.route('/problem').post(auth.authenticate,validation(problemValidation.AddProblemSchema),problemController.addProblem);
@@ -22,6 +24,7 @@ module.exports=function(router,auth,validation){
   router.route('/problems/all').get(auth.authenticate,problemController.getAllProblem);
   router.route('/problem-types/:_id').get(auth.authenticate,problemController.getProblemsByProblemType);
   router.route('/problems/search').get(auth.authenticate,problemController.problemSearch);
+  router.route('/userlist/search').get(auth.authenticate,problemController.problemSearch);
 
 
   /***************** Problem Types **********************/ 
