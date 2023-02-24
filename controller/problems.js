@@ -32,7 +32,7 @@ module.exports.getProblem = async (req, res) => {
   try {
     const { sort = "updatedAt", by = 'desc' } = req.query;
     const { _id } = req.user;
-    const problems = await util.model.Problems.find({ user_id: _id }, { question: 0, answer: 0, __v: 0 })
+    const problems = await util.model.Problems.find({ user_id: _id }, { answer: 0, __v: 0 })
       .populate({ path: "user_id", select: "firstName lastName" })
       .collation({ locale: "en" })
       .sort({ [sort]: [by] });
@@ -58,7 +58,7 @@ module.exports.getAllProblem = async (req, res) => {
     if (!!_id) {
       query.user_id = _id
     }
-    const problems = await util.model.Problems.find(query, { question: 0, answer: 0, __v: 0 })
+    const problems = await util.model.Problems.find(query, { answer: 0, __v: 0 })
       .populate({ path: "user_id", select: "firstName lastName" })
       .collation({ locale: "en" })
       .sort({ [sort]: [by] });
@@ -112,7 +112,7 @@ module.exports.getProblemsByProblemType = async (req, res) => {
     else {
       query = { "$or": [{ [type]: { $regex: search, $options: "i" } }] }
     }
-    const problemTypes = await util.model.Problems.find({ type_id: _id, ...query }, { question: 0, answer: 0, __v: 0 })
+    const problemTypes = await util.model.Problems.find({ type_id: _id, ...query }, { answer: 0, __v: 0 })
       .populate({ path: "user_id", select: "firstName lastName" })
       .collation({ locale: "en" })
       .sort({ [sort]: [by] });
