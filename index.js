@@ -15,13 +15,13 @@ const PORT = process.env.PORT || 8080
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 const options = {
     swaggerDefinition: {
-        openapi: '3.0.1', // YOU NEED THIS
+        openapi: '3.0.0', // YOU NEED THIS
         info: {
             title: 'ProblemHub',
             version: '1.0.0',
             description: 'Your API description'
         },
-        servers: [{ url: `${process.env.SERVER}` }],
+        servers: [{ url: `https://heroku-backend-qf4t.vercel.app` }],
         basePath: '/',
         components: {
             securitySchemes: {
