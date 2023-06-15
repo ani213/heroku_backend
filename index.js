@@ -11,6 +11,7 @@ const fileUpload = require('express-fileupload');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const PORT = process.env.PORT || 8080
+const path = require('path');
 
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 const options = {
@@ -36,7 +37,7 @@ const options = {
             bearerAuth: []
         }]
     },
-    apis: ["/**/*.js"]
+    apis: [path.join(process.cwd(), "./swagger/*.js")]
 }
 const swaggerSpec = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec, { customCssUrl: CSS_URL }));
