@@ -84,6 +84,87 @@
  *               description: Some server error
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *       Login:
+ *           type: object
+ *           required:
+ *              - username
+ *              - password
+ *           properties:
+ *               username:
+ *                   type: string
+ *                   description: username of the user
+ *               password:
+ *                   type: string
+ *                   description: Password of user
+ */
+
+/**
+ * @swagger
+ * /app/login:
+ *   post:
+ *       summary: To Login user
+ *       tags: [Login]
+ *       requestBody:
+ *           required: true
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                       $ref: '#/components/schemas/Login'
+ *       responses:
+ *           200:
+ *               description: Login registered successfully
+ *               content:
+ *                   application/json:
+ *                       schema:
+ *                           $ref: '#/components/schemas/Login'
+ *           500:
+ *               description: Some server error
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *       Problem:
+ *           type: object
+ *           required:
+ *              - title
+ *              - value
+ *           properties:
+ *               title:
+ *                   type: string
+ *                   description: Title Of Problem
+ *               value:
+ *                   type: string
+ *                   description: Value of Problem
+ */
+
+/**
+ * @swagger
+ * /app/problem-types:
+ *   get:
+ *       summary: To get details of all the registered user in Database
+ *       tags: [Problem]
+ *       responses:
+ *           200:
+ *               description: All Problem Types Data Successfully fetched
+ *               content:
+ *                   application/json:
+ *                       schema:
+ *                           $ref: '#/components/schemas/Problem'
+ *           500:
+ *               description: Some server error
+ *   definitions:
+ *     AllContacts:
+ *       type: array
+ *       items:
+ *         $ref: '#/components/schemas/Problem'
+ */
+
 
 /**
  * @swagger

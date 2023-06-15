@@ -13,22 +13,26 @@ const swaggerUI = require('swagger-ui-express');
 const PORT = process.env.PORT || 8080
 
 const options = {
-    definition: {
-        openapi: "3.0.1",
+    swaggerDefinition: {
+        openapi: '3.0.1', // YOU NEED THIS
         info: {
             title: 'ProblemHub',
             version: '1.0.0',
-            description: "About : - Documentation of application FlexFit which is a Fitness class Booking application in which you can hire Top quality Trainers or become a Trainer itself.",
+            description: 'Your API description'
         },
-        servers: [{ url: `http://localhost:${PORT}`, }],
-        securityDefinitions: {
-            JWT: {
-                type: 'apiKey',
-                description: 'JWT authorization of an API',
-                name: 'Authorization',
-                in: 'header',
-            },
+        basePath: '/app/',
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                }
+            }
         },
+        security: [{
+            bearerAuth: []
+        }]
     },
     apis: ["./swagger/*.js"]
 }
