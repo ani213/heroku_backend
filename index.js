@@ -20,7 +20,8 @@ const options = {
             version: '1.0.0',
             description: 'Your API description'
         },
-        basePath: '/app/',
+        servers: [{ url: `${process.env.SERVER}` }],
+        basePath: '/',
         components: {
             securitySchemes: {
                 bearerAuth: {
