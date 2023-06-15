@@ -26,7 +26,5 @@
     "swagger-ui-express": "^4.6.3",
     "yup": "^0.32.11"
   },
-  "devDependencies": {
-    "sequelize-cli": "^6.2.0"
-  }
+  "devDependencies": {}
 }
