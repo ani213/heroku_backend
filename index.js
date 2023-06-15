@@ -12,6 +12,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const PORT = process.env.PORT || 8080
 
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 const options = {
     swaggerDefinition: {
         openapi: '3.0.1', // YOU NEED THIS
@@ -38,7 +39,7 @@ const options = {
     apis: ["./swagger/*.js"]
 }
 const swaggerSpec = swaggerJSDoc(options);
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec, { customCssUrl: CSS_URL }));
 
 app.use(fileUpload({
     useTempFiles: true
