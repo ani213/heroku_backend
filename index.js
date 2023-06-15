@@ -37,7 +37,7 @@ const options = {
             bearerAuth: []
         }]
     },
-    apis: ["./swagger/swagger.js"]
+    apis: ["swagger/**/*.js"]
 }
 const swaggerSpec = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec, { customCssUrl: CSS_URL }));
