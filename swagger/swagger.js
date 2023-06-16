@@ -129,7 +129,7 @@
  * @swagger
  * components:
  *   schemas:
- *       Problem:
+ *       Problem-Types:
  *           type: object
  *           required:
  *              - title
@@ -146,23 +146,102 @@
 /**
  * @swagger
  * /app/problem-types:
+ *   post:
+ *       summary: To add Problem type
+ *       tags: [Problem-Types]
+ *       requestBody:
+ *           required: true
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                       $ref: '#/components/schemas/Problem-Types'
+ *       responses:
+ *           200:
+ *               description: Problem-Types successfully
+ *               content:
+ *                   application/json:
+ *                       schema:
+ *                           $ref: '#/components/schemas/Problem-Types'
+ *           500:
+ *               description: Some server error
+ */
+
+// /**
+//  * @swagger
+//  * /app/problem-types/{problemTypeId}:
+//  *   put:
+//  *       summary: To add Problem type
+//  *       tags: [Problem-Types]
+//  *       requestBody:
+//  *           required: true
+//  *           content:
+//  *               multipart/form-data:
+//  *                   schema:
+//  *                       $ref: '#/components/schemas/Problem-Types'
+//  *       responses:
+//  *           200:
+//  *               description: Problem-Types successfully
+//  *               content:
+//  *                   application/json:
+//  *                       schema:
+//  *                           $ref: '#/components/schemas/Problem-Types'
+//  *           500:
+//  *               description: Some server error
+//  */
+
+
+/**
+ * @swagger
+ * /app/problem-types/{problemTypeId}:
+ *   put:
+ *       summary: Update Problem Types With Photo
+ *       tags: [Problem-Types]
+ *       consumes:
+ *         - multipart/form-data
+ *       parameters:
+ *        - in: path
+ *          name: problemTypeId
+ *          type: file
+ *          description: The file to upload.
+ *        - in: formData
+ *          name: file
+ *          type: file
+ *          description: The file to upload.
+ *        - in: formData
+ *          name: title
+ *          type: text
+ *          description: change title.
+ *       responses:
+ *           200:
+ *               description: Problem-Types successfully
+ *               content:
+ *                   application/json:
+ *                       schema:
+ *                           $ref: '#/components/schemas/Problem-Types'
+ *           500:
+ *               description: Some server error
+ */
+
+/**
+ * @swagger
+ * /app/problem-types:
  *   get:
  *       summary: To get details of all the registered user in Database
- *       tags: [Problem]
+ *       tags: [Problem-Types]
  *       responses:
  *           200:
  *               description: All Problem Types Data Successfully fetched
  *               content:
  *                   application/json:
  *                       schema:
- *                           $ref: '#/components/schemas/Problem'
+ *                           $ref: '#/components/schemas/Problem-Types'
  *           500:
  *               description: Some server error
  *   definitions:
  *     AllContacts:
  *       type: array
  *       items:
- *         $ref: '#/components/schemas/Problem'
+ *         $ref: '#/components/schemas/Problem-Types'
  */
 
 
@@ -170,524 +249,216 @@
  * @swagger
  * components:
  *   schemas:
- *       User:
+ *       Problems:
  *           type: object
  *           required:
- *              - name
- *              - email
- *              - pass
+ *              - title
+ *              - type_id
  *           properties:
- *               name:
+ *               title:
  *                   type: string
- *                   description: username of the user
- *               email:
+ *                   description: Title Of Problem
+ *               type_id:
  *                   type: string
- *                   description: The user email
- *               pass:
+ *                   description: type_id of Problem Type
+ *               question:
  *                   type: string
- *                   description: The user password
- *               role:
+ *                   description: Question
+ *               answer:
  *                   type: string
- *                   description: Role of a user
- *               approved:
- *                   type: boolean
- *                   description: If a user is approved by the admin to become a Trainer or not
- *               expertise:
- *                   type: string
- *                   description: Trainer expert in types of shots
- *               address:
- *                   type: string
- *                   description: Location where a user wants to do PhotoShoot
+ *                   description: Answer
  */
 
 
 /**
  * @swagger
- * components:
- *   schemas:
- *       Booking:
- *           type: object
- *           properties:
- *               Trainer:
- *                   type: string
- *                   description: Trainer Id that user has booked
- *               Trainee:
- *                   type: string
- *                   description: Trainee id that has booked a Trainer
- *               start_time:
- *                   type: string
- *                   format: date
- *                   description: starting time of the photoshoot
- *               end_time:
- *                   type: string
- *                   format: date
- *                   description: ending time of the photoshoot
- *               status:
- *                   type: string
- *                   description: If booking is accepted rejected or is still pending after booking to a photgrapher
+ * /app/problem:
+ *   post:
+ *       summary: Create a Problem
+ *       tags: [Problems]
+ *       requestBody:
+ *           required: true
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                       $ref: '#/components/schemas/Problems'
+ *       responses:
+ *           200:
+ *               description: Problems registered successfully
+ *               content:
+ *                   application/json:
+ *                       schema:
+ *                           $ref: '#/components/schemas/Problems'
+ *           500:
+ *               description: Some server error
  */
+
 /**
  * @swagger
- * components:
- *   schemas:
- *       Notification:
- *           type: object
- *           properties:
- *               from:
- *                   type: mongoose.Schema.Types.ObjectId
- *                   description: user who wants to send message
- *               to:
- *                   type: mongoose.Schema.Types.ObjectId
- *                   description: user who will recieve message
- *               booking:
- *                   type: mongoose.Schema.Types.ObjectId
- *                   description: booking of who has booked an Trainer
- *               message:
- *                   type: string
- *                   description: message you want to send
- *               created_at:
- *                   type: string
- *                   format: date
- *                   description: timing of the notification created
- */
-// /**
-//  * @swagger
-//  * components:
-//  *   schemas:
-//  *       Meeting:
-//  *           type: object
-//  *           properties:
-//  *               Trainer:
-//  *                   type: string
-//  *                   description: user with role Trainer
-//  *               meetings:
-//  *                   type: Array
-//  *                   description: Contains meeting for each users
-//  */
-// /**
-//  * @swagger
-//  * components:
-//  *   schemas:
-//  *       Image:
-//  *           type: object
-//  *           properties:
-//  *               name:
-//  *                   type: string
-//  *                   description: user's name
-//  *               image:
-//  *                   type: string
-//  *                   data: Buffer
-//  *                   description: Sample images of Trainer
-//  */
-/**
- * @swagger
- * /user/:
+ * /app/problem:
  *   get:
- *       summary: To get details of all the registered user in Database
- *       tags: [Users]
- *       requestBody:
- *           required: false
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
+ *       summary: To get all Problems of a User which is logined.
+ *       tags: [Problems]
+ *       parameters:
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *         description: sort by createdAt| updatedAt | title | question
+ *       - in: query
+ *         name: by
+ *         schema:
+ *           type: integer
+ *         description: For:-   DESC -1 | ASC 1
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search text
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *         description: search by Type  title | all | question | answer
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: string
+ *         description: The numbers of items to return
  *       responses:
  *           200:
- *               description: All user Data Successfully fetched
+ *               description: All Problem Types Data Successfully fetched
  *               content:
  *                   application/json:
  *                       schema:
- *                           $ref: '#/components/schemas/User'
+ *                           $ref: '#/components/schemas/Problems'
  *           500:
  *               description: Some server error
+ *   definitions:
+ *     AllContacts:
+ *       type: array
+ *       items:
+ *         $ref: '#/components/schemas/Problems'
  */
+
+
 /**
  * @swagger
- * /user/register:
- *   post:
- *       summary: To register a user in the database
- *       tags: [Users]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: User registered successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /user/login:
- *   post:
- *       summary: To login to application and accessing its features
- *       tags: [Users]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: User logged in successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /user/apply:
- *   post:
- *       summary: A Trainee can apply to become a Trainer of this application
- *       tags: [Users]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: Application Submitted Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /user/pending:
+ * /app/problems/all:
  *   get:
- *       summary: All pending requests of users who have applied for becoming a Trainer
- *       tags: [Users]
- *       requestBody:
- *           required: false
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
+ *       summary: To get all Problems.
+ *       tags: [Problems]
+ *       parameters:
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *         description: sort by createdAt| updatedAt | title | question
+ *       - in: query
+ *         name: by
+ *         schema:
+ *           type: integer
+ *         description: For:-   DESC -1 | ASC 1
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search text
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *         description: search by Type  title | all | question | answer
+ *       - in: query
+ *         name: _id
+ *         schema:
+ *           type: string
+ *         description: The numbers of items to return
  *       responses:
  *           200:
- *               description: Application Submitted Successfully
+ *               description: All Problem Types Data Successfully fetched
  *               content:
  *                   application/json:
  *                       schema:
- *                           $ref: '#/components/schemas/User'
+ *                           $ref: '#/components/schemas/Problems'
  *           500:
  *               description: Some server error
- */
-/**
- * @swagger
- * /user/apply:
- *   post:
- *       summary: A Trainee can apply to become a Trainer of this application
- *       tags: [Users]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: Application Submitted Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /user/applications/:email:
- *   put:
- *       summary: Admin can accept or reject users who have applied for Trainer
- *       tags: [Users]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: Application Updated Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /user/upload:
- *   post:
- *       summary: To upload images to the database
- *       tags: [Users]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/Images'
- *       responses:
- *           200:
- *               description: Images uploaded successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /user/submit_Trainer_details:
- *   patch:
- *       summary: To register a Trainer detail in the database
- *       tags: [Users]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: Trainer data updated successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
+ *   definitions:
+ *     AllContacts:
+ *       type: array
+ *       items:
+ *         $ref: '#/components/schemas/Problems'
  */
 
 
 /**
  * @swagger
- * /user/logout:
- *   post:
- *       summary: A user can logout from the application
- *       tags: [Users]
- *       requestBody:
- *           required: false
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: logged out Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-
-
-//Trainer________________________________________________________________
-
-
-/**
- * @swagger
- * /trainer/:
+ * /app/problem/search:
  *   get:
- *       summary: To get details of all the registered trainers in Database
- *       tags: [Trainers]
- *       requestBody:
- *           required: false
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
+ *       summary: To get all Problems of a User which is logined.
+ *       tags: [Problems]
+ *       parameters:
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *         description: sort by createdAt| updatedAt | title | question
+ *       - in: query
+ *         name: by
+ *         schema:
+ *           type: integer
+ *         description: For:-   DESC -1 | ASC 1
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search text
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *         description: search by Type  title | all | question | answer
  *       responses:
  *           200:
- *               description: All trainers Data Successfully fetched
+ *               description: All Problem Types Data Successfully fetched
  *               content:
  *                   application/json:
  *                       schema:
- *                           $ref: '#/components/schemas/User'
+ *                           $ref: '#/components/schemas/Problems'
  *           500:
  *               description: Some server error
+ *   definitions:
+ *     AllContacts:
+ *       type: array
+ *       items:
+ *         $ref: '#/components/schemas/Problems'
  */
 
 
 /**
  * @swagger
- * /trainer/update:
- *   patch:
- *       summary: To update a Trainer details in the database
- *       tags: [Trainers]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: Trainer data updated successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-
-
-/**
- * @swagger
- * /trainer/logout:
- *   post:
- *       summary: A trainer can logout from the application
- *       tags: [Trainers]
- *       requestBody:
- *           required: false
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/User'
- *       responses:
- *           200:
- *               description: logged out Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/User'
- *           500:
- *               description: Some server error
- */
-
-
-// booking________________________________________________________________
-
-
-/**
- * @swagger
- * /book/:
+ * /app/problem/{problemId}:
  *   get:
- *       summary: All bookings done by the Trainee
- *       tags: [Bookings]
- *       requestBody:
- *           required: false
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/Booking'
+ *       summary: To get Problems by problem Id.
+ *       tags: [Problems]
+ *       parameters:
+ *       - in: path
+ *         name: problemId
+ *         schema:
+ *           type: string
+ *         description: Use Problem id 
  *       responses:
  *           200:
- *               description: All bookings fetched Successfully
+ *               description: All Problem Types Data Successfully fetched
  *               content:
  *                   application/json:
  *                       schema:
- *                           $ref: '#/components/schemas/Booking'
+ *                           $ref: '#/components/schemas/Problems'
  *           500:
  *               description: Some server error
- */
-/**
- * @swagger
- * /book/book:
- *   post:
- *       summary: A Trainee can book a meeting with approved Trainers
- *       tags: [Bookings]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/Booking'
- *       responses:
- *           200:
- *               description: Request for meeting submited Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/Booking'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /book/requests:
- *   get:
- *       summary: Get all bookings for logged in Trainer
- *       tags: [Bookings]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/Booking'
- *       responses:
- *           200:
- *               description: Requests for meeting fetched Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/Booking'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /book/requests/:status:
- *   get:
- *       summary: Get the status of requests sent by the Trainees
- *       tags: [Bookings]
- *       requestBody:
- *           required: false
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/Booking'
- *       responses:
- *           200:
- *               description: Requests for meeting fetched Successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/Booking'
- *           500:
- *               description: Some server error
- */
-/**
- * @swagger
- * /book/requests/:bookingid:
- *   post:
- *       summary: A Trainer can accept or reject the bookings
- *       tags: [Bookings]
- *       requestBody:
- *           required: true
- *           content:
- *               application/json:
- *                   schema:
- *                       $ref: '#/components/schemas/Booking'
- *       responses:
- *           200:
- *               description: Booking request updated successfully
- *               content:
- *                   application/json:
- *                       schema:
- *                           $ref: '#/components/schemas/Booking'
- *           500:
- *               description: Some server error
+ *   definitions:
+ *     AllContacts:
+ *       type: array
+ *       items:
+ *         $ref: '#/components/schemas/Problems'
  */
