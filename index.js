@@ -10,6 +10,7 @@ const validation = require("./middleware/validateMiddelware");
 const fileUpload = require('express-fileupload');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
+const { sendMailFromTemplate, templateFromUrl } = require('./common');
 const PORT = process.env.PORT || 8080
 
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
@@ -55,6 +56,18 @@ let router = express.Router()
 routes(router, auth, validation);
 app.get("/", (req, res) => {
     res.send({ message: "App is working fine :-)" })
+})
+app.get('/app/home', async (req, res) => {
+    sendMailFromTemplate('aniket@yopmail.com', [], "Subject send by Template",
+        templateFromUrl('templates/email.hbs'), {
+        firstName: "Aniket Kumar",
+        varification: 46773
+    }, []
+    ).then((data) => {
+        res.send(data)
+    }).catch((err) => {
+        res.send({ message: err.message })
+    })
 })
 app.use('/app', router)
 app.listen(PORT, console.log(`server start:#${PORT}`));
