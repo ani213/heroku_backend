@@ -11,7 +11,6 @@ const fileUpload = require('express-fileupload');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const PORT = process.env.PORT || 8080
-const path = require('path');
 
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 const options = {
@@ -22,7 +21,7 @@ const options = {
             version: '1.0.0',
             description: 'Your API description'
         },
-        servers: [{ url: `https://heroku-backend-qf4t.vercel.app` }],
+        servers: [{ url: `${process.env.SERVER}` }],
         basePath: '/',
         components: {
             securitySchemes: {
