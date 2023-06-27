@@ -76,9 +76,19 @@ module.exports.register = async (req, res) => {
       $or: [{ username: req.body.username }, { email: req.body.email }],
     });
     if (!user) {
-      const msgData = await common.sendEmail(
-        req.body.email,
-        common.generateVarificatioCode()
+      const msgData = await common.sendMailFromTemplate(
+        {
+          mailTo: userData.email,
+          options: {
+            varification: common.generateVarificatioCode(),
+            firstName: userData?.firstName,
+            lastName: userData?.lastName
+          }
+        },
+        common.templateFromUrl('templates/email.hbs'),
+
+        // req.body.email,
+        // common.generateVarificatioCode()
       );
       let salt = common.salt();
       let hashedPassword = common.encryptPassword(req.body.password, salt);
@@ -152,9 +162,15 @@ module.exports.forgetPassword = async (req, res) => {
     });
     if (findedUser && findedUser.status === "Active") {
       const varificationCode = common.generateVarificatioCode();
-      const sendedEmail = await common.sendEmail(
-        findedUser.email,
-        varificationCode
+      const sendedEmail = await common.sendMailFromTemplate({
+        mailTo: findedUser.email,
+        options: {
+          varification: varificationCode,
+          firstName: findedUser?.firstName,
+          lastName: findedUser?.lastName
+        }
+      },
+        common.templateFromUrl('templates/email.hbs')
       );
       let password = {
         ...findedUser.password,
@@ -312,8 +328,8 @@ module.exports.getUserList = async (req, res) => {
       status: 0,
       __v: 0,
       picture: 0,
-      createdAt:0,
-      updatedAt:0
+      createdAt: 0,
+      updatedAt: 0
     });
     res.status(200).send(data);
   } catch (err) {

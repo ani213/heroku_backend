@@ -76,25 +76,29 @@ module.exports.templateFromUrl = (tempplateUrl) => {
 }
 
 
-module.exports.sendMailFromTemplate = function (mailTo, cc, mailSubject, template, options, bcc) {
-  var html = template(options);
+module.exports.sendMailFromTemplate = function ({ mailTo, cc, mailSubject, options, bcc }, template) {
   return new Promise((resolve, reject) => {
+    var html = template(options);
     var mailOptions = {
       from: process.env.EMAIL_ID,
       to: mailTo,
       cc: [cc],
       bcc: [bcc],
-      subject: mailSubject,
+      subject: mailSubject || "Varification for ProblemHub",
       html: html
     };
-
+    console.log(mailOptions);
     transporter.sendMail(mailOptions, function (error, info) {
+      console.log(error, info);
       if (error) {
         console.log(error);
-        reject(error)
+        reject(new Error("email is not send"))
       } else {
-        console.log('Email sent: ' + info.response);
-        resolve(info.response)
+        resolve({
+          // info: info.response,
+          status: true,
+          varificationCode: options?.varification,
+        })
       }
     });
   })
