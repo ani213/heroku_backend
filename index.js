@@ -71,7 +71,7 @@ app.get('/app/home', async (req, res) => {
 
         res.send(data)
     }).catch((err) => {
-        logger.error(err);
+        // logger.error(err);
         res.send({ message: err.message })
     })
 })
