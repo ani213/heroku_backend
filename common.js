@@ -83,9 +83,8 @@ module.exports.templateUrl = (tempplateUrl) => {
 
 module.exports.sendMailFromTemplate = function ({ mailTo, cc, mailSubject, options, bcc }, template) {
   return new Promise((resolve, reject) => {
-    let temp = handlebars.compile(fs.readFileSync(__dirname + "/" + "templates/email.hbs").toString('utf-8'))
-    var html = temp(options);
-    var mailOptions = {
+    let html = template(options);
+    let mailOptions = {
       from: process.env.EMAIL_ID,
       to: mailTo,
       cc: [cc],
