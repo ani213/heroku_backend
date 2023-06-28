@@ -11,6 +11,7 @@ const fileUpload = require('express-fileupload');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const { sendMailFromTemplate, templateFromUrl, templateUrl } = require('./common');
+const { logger } = require('./logger');
 const PORT = process.env.PORT || 8080
 
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
@@ -64,10 +65,13 @@ app.get('/app/home', async (req, res) => {
             varification: 46773
         }
     },
+
         templateUrl('templates/email.hbs')
     ).then((data) => {
+
         res.send(data)
     }).catch((err) => {
+        logger.error(err);
         res.send({ message: err.message })
     })
 })

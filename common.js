@@ -93,11 +93,10 @@ module.exports.sendMailFromTemplate = function ({ mailTo, cc, mailSubject, optio
       html: html
     };
     transporter.sendMail(mailOptions, function (error, info) {
-      console.log(error, info);
       if (error) {
-        console.log(error);
         reject(new Error("email is not send"))
       } else {
+
         resolve({
           // info: info.response,
           status: true,
