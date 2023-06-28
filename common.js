@@ -2,7 +2,8 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const handlebars = require('handlebars');
-const fs = require('fs')
+const fs = require('fs');
+const path = require('path');
 const encryptPassword = (password, salt) => {
   const encodedPassword = crypto.pbkdf2Sync(
     password,
@@ -75,6 +76,10 @@ module.exports.templateFromUrl = (tempplateUrl) => {
   return handlebars.compile(fs.readFileSync(__dirname + '/' + (tempplateUrl)).toString('utf-8'));
 }
 
+module.exports.templateUrl = (tempplateUrl) => {
+  return handlebars.compile(fs.readFileSync(path.normalize(__dirname + '/' + tempplateUrl)).toString('utf-8'));
+}
+
 
 module.exports.sendMailFromTemplate = function ({ mailTo, cc, mailSubject, options, bcc }, template) {
   return new Promise((resolve, reject) => {
@@ -87,7 +92,6 @@ module.exports.sendMailFromTemplate = function ({ mailTo, cc, mailSubject, optio
       subject: mailSubject || "Varification for ProblemHub",
       html: html
     };
-    console.log(mailOptions);
     transporter.sendMail(mailOptions, function (error, info) {
       console.log(error, info);
       if (error) {
