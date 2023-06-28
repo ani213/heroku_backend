@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const handlebars = require('handlebars');
 const fs = require('fs');
-const path = require('path');
+const path = require('node:path');
 const encryptPassword = (password, salt) => {
   const encodedPassword = crypto.pbkdf2Sync(
     password,
